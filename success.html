@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/success.css">
+    <link rel="shortcut icon" href="img/favicon.ico" /> 
+    <title>namelator</title>
+</head>
+<body>
+<div id="body">
+    <top :email="email"></top>
+    <back></back>
+    <div class="hidden">
+        <div class="succ">
+            <img src="img/Successful Payment.png" alt="" class="succ_img">
+            <!-- <div class="time">{{time}}</div> -->
+            <div>We will take the Chinese name you want within two hours according to your requirements.</div>
+            <a class="rel" href="order.html"><div class="tip rel" style="z-index:100;">My Chinese Name</div></a>
+            <div class="order">
+                <div class="row between">
+                    <div>
+                        Order #{{data.orderID}}                                   
+                    </div>
+                    <div>{{data.createTime}}</div>
+                </div>
+                <div>{{data.family_name}} {{data.last_name}}    {{data.birth}}    {{data.sex==1 ?'male':'female'}}</div>
+                <div>Desired Essence of the Name: I want my name to symbolize luck and happiness.</div>
+            </div>
+            
+        </div>
+        <foot></foot>
+    </div>
+    <alert :msgshow='msgShow' :msg="msg"></alert>
+</div>   
+</body>
+</html>
+<script src="../js/vue.min.js"></script>
+<script src="../js/vue-resource.min.js"></script>
+<script src="js/foot.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#body',
+        data:{
+            time:'02:00:00',
+            msgShow:false,
+           msg:'',
+           orderID:'',
+           
+        },
+        created(){
+            if(localStorage.getItem('email')){
+                this.email=localStorage.getItem('email');
+            }
+           
+            var data=JSON.parse(localStorage.getItem("name"));
+            // var timer=setInterval(function(){
+            //      var nowTime = Math.round(new Date()/1000);
+            //      var differ = data.timestamp+7200 - nowTime;
+            //      if(differ==0){
+            //          clearInterval(timer);
+            //      }
+            //     //  console.log("differ"+differ);
+            //      //获取还剩多少小时
+            //      var hour=parseInt(differ/3600%24);
+			//     //获取还剩多少分钟
+			//      var minute=parseInt(differ/60%60);
+			//     //获取还剩多少秒
+            //     var second=differ%60;
+            //     vm.time='0'+hour + ':' + (minute<10?'0'+minute:minute) + ':' + (second<10?'0'+second:second);
+            // },1000)
+            this.data = data;
+            this.$http.post('uploadOrder.php',
+                    {  'mail':this.email,
+                       'family_name':data.family_name,
+                       'last_name':data.last_name,
+                       'birth':data.birth,
+                       'sex':data.sex,
+                       'remark':data.remark,
+                       'cost':data.cost,
+                       'orderID':data.orderID,
+                       'create_time':data.createTime,
+                       "wuxing":JSON.stringify(data.wuxing),
+            
+                        },{emulateJSON:true}).then(function(res){
+                            console.log(res.body);
+                            if(res.body.result=='OK'){
+                                setTimeout(function(){
+                                    window.close();
+                                },3000) 
+                            }else if(res.body.result=='failed'){
+                                this.msgShow = true;
+                                this.msg = 'Error in uploading your order information，Please contact the platform.'+res.body.reason;
+                            }
+                           
+                        },function(res){
+                            this.msgShow = true;
+                            this.msg = "The system is busy. Please try again later."
+                        });
+        }
+    })
+</script>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/zodiac.css">
+    <link rel="shortcut icon" href="img/favicon.ico" /> 
+    <title>namelator</title>
+</head>
+<body>
+<div id="body">
+    <top :email="email"></top>
+    <back></back>
+    <div class="hidden">
+        <div class="w1200 con_one">
+            <div class="title"> WHAT IS CHINESE ZODIAC?</div>
+            <div>
+                   The zodiac signs are the visual representations of the twelve earthly branches, which are represented by the twelve animals, namely the rat, ox, tiger, rabbit, dragon, snake, horse, the Sheep, monkey, chicken, dog, pig, with the development of history, gradually merge into the concept of folk beliefs, which are expressed in marriage, life, and annual transportation. The zodiac has a rich legend, and forms a system of concept interpretation, which becomes the image philosophy in folk culture, such as the genus of marriage, the prayer of the temple, the birth of the year. Modern, more people use the zodiac as the mascot of the Spring Festival and become a symbol of entertainment and cultural activities.
+            </div>
+        </div>
+        <div class="w1200 con_one">
+            <div class="title">WHAT IS CHINESE ELEMENT?</div>
+            <div>
+                 The Taoist Five Elements Theory was the earliest, intended to describe the movement form of things and the transformation relationship. The Five Elements Theory is an ancient Chinese image-like theory. It is not a five-element, but it belongs to the five projects of the water, fire, wood and earth in accordance with the nature of the underflow, the inflammation, the straightness, the leather, and the crops. There are differences in the four elements of earth, water, fire, and wind. It is a theory that combines philosophy, divination, fortune telling, calendar, Chinese medicine, and sociology.
+The five lines refer to gold (white), wood (green), water (black), fire (red), and earth (yellow). In nature, all things have a relationship of mutual attraction, mutual attraction, and mutual attraction. The five genes are the "genes" of the interaction between all things in nature. They profoundly affect people's eating, wearing, living, walking, and internal organs and people. Birth year, month, and day. Therefore, the five elements are closely related to the people's fortune, career, love, and health.
+            </div>
+        </div>
+        <foot></foot>
+    </div>
+</div>   
+</body>
+</html>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+<script src="js/foot.js"></script>
+<script>
+    new Vue({
+        el:'#body',
+        data:{
+            email:'',
+        },
+        created(){
+            if(localStorage.getItem('email')){
+                this.email=localStorage.getItem('email');
+                
+            }
+        }
+    })
+</script>

@@ -1,0 +1,58 @@
+html{
+    min-height:100%;
+}
+#body{
+    color:#5C6565;
+    background: url('../img/5680366d2bdee5b726c57f9dfdf866c.jpg') no-repeat center;
+}
+.content{
+    margin:0 auto;
+    width:500px;
+    text-align: left;
+}
+.con_left{
+    /* width:116px; */
+}
+input{
+    box-sizing: border-box;
+    padding-left:10px;
+
+    background:rgba(215,211,195,1);
+    border:2px solid rgba(214,185,143,1);
+    border-radius:2px;
+}
+.name{
+    width:387px;
+    height:45px;
+}
+.one{
+   
+    line-height:35px;
+}
+.bot20{
+    margin-bottom:20px;
+}
+.title{
+    font-size:16px;
+    margin-bottom:48px;
+    text-align: center;
+}
+.birth{
+    width:63px;
+    height:37px;
+}
+
+.remark{
+    width:100%;
+    height:45px;
+    box-sizing:border-box;
+    padding-left:10px;
+}
+.getBtn{
+    text-align: center;
+    margin-bottom:95px;
+    z-index:100;
+}
+.money{
+    font-size:16px;
+}

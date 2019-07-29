@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/order.css">
+    <link rel="shortcut icon" href="img/favicon.ico" /> 
+    <title>namelator</title>
+</head>
+<body>
+<div id="body">
+        <top :email="email"></top>
+        <back></back>
+        <div class="hidden">
+                <div v-if="list.length==0" v-cloak>
+                    <img src="img/mycoll_none_bg.png" alt=""  class="none">
+                    <div class="none_txt">Go and collect your favorite Chinese characters.>></div>
+                </div>
+                <div class="w1200" v-if="list.length>0" v-cloak>
+                    <div class="one" v-for="(item,key) in list">
+                        <div class="row between">
+                             <div>Order #{{item.orderID}}</div>
+                             <div>{{item.time}}</div>
+                        </div>
+                        <div>{{item.family_name}} {{item.last_name}}    {{item.birth}}    {{item.sex==1?'male':'female'}}</div>
+                        <div>Desired Essence of the Name: {{item.remark}}</div>
+                        <div>Your CHINESE ZODIAC:<span v-if="item.wuxing">{{JSON.parse(item.wuxing).sx}}</span></div>
+                        <div class="row between">
+                            <div>our CHINESE ZODIAC:
+                                    <span v-if="item.wuxing">{{JSON.parse(item.wuxing).wuxing}}</span>                                                                           
+                                </div>
+                        </div>
+                        <div class="result" v-if="item.status==0">
+                            <div v-for="(item2,key2) in item.cn">
+                                    <div>第{{key2+1}}个名字</div>
+                                    <div v-for="(item3,key3) in item2"> 
+                                        <input type="text" v-model="item3.char">
+                                        <input type="text" v-model="item3.spell" placeholder="请填写拼音">
+                                        <input type="text" v-model="item3.mean" placeholder="请填写寓意">
+                                    </div>     
+                                    <button @click="addMin(key,key2)">添加一个名</button>
+                                    <button @click="delMin(key,key2)">删除一个名</button>
+                            </div>
+                            <button @click="submit(item.orderID,item.cn)">提交命名</button>提示：命名不允许有空
+                            
+
+
+
+                            
+                            <!-- <div>We are working hard....</div>
+                            <div>approx 01:34:23</div> -->
+                        </div>
+                        <div class="row between" v-else>
+                            <div class="result_one rel" v-for="(item2,key2) in JSON.parse(item.name)">
+                                <img class="img1" src="img/frame_lefttop.png" alt="">
+                                <img class="img2" src="img/frame_righttop.png" alt="">
+                                <img class="img3" src="img/frame_leftunder.png" alt="">
+                                <img class="img4" src="img/frame_rightunder.png" alt="">
+                                <div class="con">
+                                    
+                                    <div>
+                                        chinese name: <span v-for="(item4,key4) in item2">{{item4.char}}</span> <span  v-for="(item4,key4) in item2">{{item4.spell}}</span> 
+                                         
+                                    </div>
+                                    <div v-for="(item3,key3) in item2">{{item3.char}} {{item3.spell}}-{{item3.mean}}</div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <foot></foot>
+            </div>
+            <alert :msgshow='msgShow' :msg="msg"></alert>
+</div>   
+</body>
+</html>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+<script src="js/foot.js"></script>
+<script src="../js/vue-resource.min.js"></script>
+<script>
+var vm=new Vue({
+    el:'#body',
+    data:{
+       mail:'',
+       list:{},
+       msgShow:false,
+       msg:''
+    },
+    methods:{
+        addMin(key,key2){
+           this.list[key].cn[key2].push({"char":"","spell":"","mean":""});
+        },
+        delMin(key,key2){
+           this.list[key].cn[key2].pop();
+        },
+        submit(orderID,cn){
+            for(var i=0;i<cn.length;i++){
+                for(var j=0;j<cn[i].length;j++){
+                    if(!cn[i][j].char || !cn[i][j].spell || !cn[i][j].mean){
+                        this.msgShow = true;
+                        this.msg = '您还有未填写的字段';
+                        return;
+                    }
+                }
+            }
+            this.$http.post('giveName.php',
+                    {  'orderID':orderID,
+                       'name':JSON.stringify(cn),
+            
+                        },{emulateJSON:true}).then(function(res){
+                            console.log(res.body);
+                            if(res.body.result=='OK'){
+                                this.msgShow=true;
+                                this.msg="提交命名成功";
+                                this.listAllOrder();
+                            }else if(res.body.result=='failed'){
+                                this.msgShow = true;
+                                this.msg = 'Error in uploading your order information，Please contact the platform.'+res.body.reason;
+                            }
+                           
+                        },function(res){
+                            this.msgShow = true;
+                            this.msg = "The system is busy. Please try again later."
+                        });
+        },
+        listAllOrder(){
+            this.$http.get('listAllOrder.php').then(function(res){
+                            if(res.body.result=='OK'){
+                                var list=res.body.list;
+                                for(var i=0;i<list.length;i++){
+                                    if(list[i].status==0){
+                                        list[i].cn=[[{'char':'','spell':'','mean':''}],[{'char':'','spell':'','mean':''}]]
+                                    }
+                                }
+                                this.list=list;
+                                console.log(list);
+                            }else{
+                                vm.msgShow=true;
+                                vm.msg = "Failed to get order list,reason:"+res.body.reason;
+                            }
+                        },function(res){
+                            vm.msgShow=true;
+                            vm.msg = "The system is busy. Please try again later."
+
+                        }); 
+        }
+      
+    },
+    created(){
+        if(localStorage.getItem('email')){
+                this.email=localStorage.getItem('email');
+                
+        }else{
+                window.location.href="index.html";
+                return;
+        }
+        this.listAllOrder();
+         
+    }
+})
+</script>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/getName.css">
+    <link rel="shortcut icon" href="img/favicon.ico" /> 
+    <title>namelator</title>
+    <style>
+    .dropBox{
+        line-height:33px;
+        width:80px;
+        height:33px;
+        background:rgba(215,211,195,1);
+        border:2px solid rgba(214,185,143,1);
+        border-radius:2px;
+        padding-left:10px;
+    }
+    /* .dropdown:hover .dropdown-content {
+        display: block;
+    } */
+    .dropdown-content a {
+    color: black;
+    padding-left:10px;
+    /* padding: 12px 16px; */
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content {
+    max-height:135px;
+    overflow-y:auto;
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 77px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.imgBox{
+    height:34px;
+    width:37px;
+    background: #D6B890;
+}
+.imgBox div{
+    margin-top:13px;
+    margin-left:12px;
+    height:0;width:0;
+    border-top:7px solid #fff;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+}
+.dropdown-content a:hover {background-color: #f1f1f1}
+    </style>
+</head>
+<body>
+ <div id="body">
+     <top :email="email"></top>
+     <back></back>
+     <div class="hidden">
+            <div class="content">
+                    <div class="title">GET A CHINESE NAME</div>
+                    <div>
+                        <div class="row between one bot20">
+                            <div class="con_left">Family name</div>
+                            <input type="text" class="name" v-model="family_name">
+                        </div>
+                        <div class="row between one bot20">
+                            <div class="con_left">Last name</div>
+                            <input type="text" class="name" v-model="last_name">
+                        </div>
+                        <div class="row between one bot20">
+                            <div class="con_left">Date of birth</div>
+                            <div style="width:387px;" class="row between">
+                                <input type="text" class="birth" v-model="day">Day
+                                
+                                <input type="text" class="birth" v-model="month">Month
+                                <div class="dropdown"  @mouseleave="document.getElementsByClassName('dropdown-content')[0].style.display='none';">
+                                    <div class="dropBox row between" @mouseover="document.getElementsByClassName('dropdown-content')[0].style.display='block';">
+                                        <div class="dropbtn">{{year}}</div>
+                                        <div class="imgBox" style="margin-top:-1px;">
+                                            <div style="margin-top:15px;"></div>
+                                        </div>  
+                                    </div>
+                                    
+                                    <div class="dropdown-content " style="width:93px;">
+                                        <a  v-for="(item,key) in yearList" @click="changeYear(item)">{{item}}</a>
+                                    </div>
+                                </div>Year
+                            </div>
+                        </div>
+                        <div class="dropdown bot20" @mouseleave="document.getElementsByClassName('dropdown-content')[1].style.display='none';">
+                            <div class="dropBox row between" style="width:262px;"  @mouseover="document.getElementsByClassName('dropdown-content')[1].style.display='block';">
+                                <div class="dropbtn">{{timeList[timeIndex]}}</div>
+                                <div class="imgBox">
+                                    <div></div>
+                                    <!-- <img src="img/xiala.png" alt="" style="margin-top:2px;"> -->
+                                </div>  
+                            </div>
+                            
+                            <div class="dropdown-content " style="width:276px;line-height:33px;">
+                                <a  v-for="(item,key) in timeList" @click="changeTime(key)">{{item}}</a>
+                            </div>
+                        </div>
+                        <div class="bot20">Your CHINESE ZODIAC：{{this.sx}}</div>
+                        <div class="bot20">Your CHINESE FIVE ELEMENTS：{{this.wuxing}}</div>
+                        <div class="bot20" style="color:#D6B890;" @click="window.location.href='zodiac.html'">WHAT IS CHINESE ZODIAC? WHAT IS CHINESE ELEMENT?</div>
+                        <div class="row between bot20">
+                            <div>
+                            <input type="radio" v-model="sex" value="1" style="margin-right:5px;">male
+                            </div>
+                            <div>
+                               <input type="radio" v-model="sex" value="2" style="margin-right:5px;">female
+                            </div>
+                        </div>
+                        <div class="bot20">Desired Essence of the Name</div>
+                        <input type="text" v-model="remark" class="remark bot20" placeholder="I want my name to symbolize luck and happiness">
+                        <div class="row between money">
+                            <div>TOTAL</div>
+                            <div>$5</div>
+                        </div>
+                        <div class="getBtn rel" @click="pay">Submit And Pay</div>
+                    </div>
+                </div>
+                <foot></foot>
+     </div>
+     <alert :msgshow='msgShow' :msg="msg"></alert>
+ </div>   
+</body>
+</html>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+<script src="js/foot.js"></script>
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script src="../js/login.js"></script>
+<script src="js/hl.js"></script>
+<script>
+    var vm=new Vue({
+        el:'#body',
+        data:{
+           msgShow:false,
+           msg:'',
+           email:'',
+           family_name:'',
+           last_name:'',
+           day:'',
+           month:'',
+           year:'',
+           sex:1,
+           remark:'',
+           yearList:[],
+           year:2019,
+           timeList:['23:00 - 01:00','01:00 - 03:00','03:00 - 05:00','05:00 - 07:00','07:00 - 09:00','09:00 - 11:00','11:00 - 13:00','13:00 - 15:00','15:00 - 17:00','17:00 - 19:00','19:00 - 21:00','21:00 - 23:00'],
+           timeIndex:1,
+           sx:'',
+           wuxing:'',
+        },
+        created(){
+            if(localStorage.getItem('email')){
+                this.email=localStorage.getItem('email');
+            }
+            var arr=[];
+            for(var i=1950;i<2021;i++){
+               arr.push(i);
+            }
+            this.yearList = arr;
+        },
+        methods:{
+            getResult(){
+                if(!this.month || !this.day){
+                    return;
+                }
+                var rs=result(this.year,this.month,this.day,this.timeIndex);
+                this.sx = rs.sx;
+                this.wuxing = rs.wuxing;
+
+            },
+            changeTime(index){
+                this.timeIndex = index;
+                var a=document.getElementsByClassName('dropdown-content')[1].style.display='none';
+                this.getResult();
+            },
+            changeYear(year){
+                document.getElementsByClassName('dropdown-content')[0].style.display='none';
+               this.year=year;
+               this.getResult();
+            //    if(!this.month && ! this.day){
+            //        result(year,month,day)
+            //    }
+
+            },
+            pay(){
+                var arr = ['email','family_name','last_name','day','month','year'];
+                var arr2 = ['Please login first and pay later.',
+                            'Family name cannot be empty',
+                            'last name cannot be empty',
+                            'day of birth cannot be empty',
+                            'month of birth cannot be empty',
+                            'year of birth cannot be empty'];
+                for(var i = 0;i<arr.length;i++){
+                    if(!this[arr[i]]){
+                        this.msgShow = true;
+                        this.msg = arr2[i];
+                        return;
+                    }
+                }
+                var date= new Date();
+                var time=Math.round(date/1000);
+                var orderID = time+parseInt(Math.random()*1000);
+                var url='pay.php?debug=true && orderID='+orderID+'&& price=2 &&payTime='+time;
+                var data={
+                    'family_name':this.family_name,
+                    'last_name':this.last_name,
+                    'birth':this.year+'-'+this.month+'-'+this.day,
+                    'sex':this.sex,
+                    'remark':this.remark,
+                    'orderID':orderID,
+                    'cost':5,
+                    'createTime':this.getNowFormatDate(date),
+                    'timestamp':time,
+                    'wuxing':{"wuxing":this.wuxing,"sx":this.sx}
+                    };
+                localStorage.setItem('name',JSON.stringify(data));
+                window.open(url);      
+                
+               
+            },
+            getNowFormatDate(date) {
+                // var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                var hour = date.getHours();
+                var minute = date.getMinutes();
+                var second = date.getSeconds();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate +' '+hour+':'+minute+':'+second;
+                return currentdate;
+            }
+        },
+        watch:{
+            day(){
+                this.getResult();
+            },
+            month(){
+                this.getResult();
+            }
+        }
+    })
+</script>

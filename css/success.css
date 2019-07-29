@@ -1,0 +1,33 @@
+.succ_img{
+    width:338px;
+    height:47px;
+    margin-bottom:70px;
+}
+.succ{
+    width:610px;
+    margin:107px auto 0;
+    text-align: center;
+}
+.time{
+    font-size:30px;
+    color:#5C6565;
+    margin-bottom: 36px;
+}
+.succ .tip{
+    text-align: right;
+    color:#D6B98F;
+    margin:15px 0 45px;
+}
+.order{  
+    padding:20px;
+    width:610px;
+    height:113px;
+    border:1px solid rgba(92,101,101,1);
+    box-sizing: border-box;
+    text-align: left;
+    line-height:24px;
+}
+#body{
+    color:#5C6565;
+    background: url('../img/5680366d2bdee5b726c57f9dfdf866c.jpg') no-repeat center;
+}

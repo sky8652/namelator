@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=0,initial-scale='${window.divicePixelRatio}'">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="shortcut icon" href="img/favicon.ico" /> 
+    <title>namelator</title>
+    <style>
+    .getBtn:hover{
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+<div id="body">
+    <header class="rel">
+        <div id="slideBox" class="slideBox">
+           <div class="bd">
+               <ul>
+                   <li>
+                       <img src="img/banner1.png" alt="">
+                   </li>
+                   <li>
+                       <img src="img/banner2.png" alt="">
+                   </li>
+               </ul>
+           </div>
+           <div class="hd">
+               <ul class="row">
+                   <li style="margin-right:10px;"></li>
+                   <li></li>
+               </ul>
+           </div>
+        </div>
+        <div class="w1200" style="position: absolute;
+        top:0;
+        left:50%;
+        margin-left:-600px;">
+            <top :email="email"></top>
+        </div>
+         
+    </header>
+    <div class="pattern">
+            <div class="con1 rel">
+                    <img src="img/home_bg1@2x.png" alt="" class="ship">
+                    <img src="img/home_bg2@2x.png" alt="" class="hill">
+                    <div class="w1200 comment">
+                        <div class="con2">
+                            <div>Get a RIGHT Chinese name!</div>
+                            <div>Be meaningful, unique and acceptable.</div>
+                            <div>
+                                Pofessors will design two names for you base on your original name, intention and desire of meaning.
+                            </div>
+                            <div>
+                                At the same time, we will also help you measure your exclusive zodiac and five elements for free.
+                            </div>
+                            <div class="getBtn rel" @click="window.location.href='getName.html'">GET A CHINESE NAME</div>
+                        </div>
+                        <div class="box rel" v-cloak>
+                            <div class="txtScroll-left">
+                                <div class="bd">
+                                    <div class="tempWrap">
+                                            <ul class="infoList">
+                                                    <li>
+                                                            <div class="con3">
+                                                                    <div>Danielle H   花丹儿</div>
+                                                                    <div> 
+                                                                        Namelator has given me a cute Chinese name which fits my character. My last name means flower in Chinese and it sounds almost the same as my real last name. My Chinese friends said that my name is adorable.      
+                                                                    </div>
+                                                            </div>
+                                                    </li>
+                                                    <li>
+                                                            <div class="con3">
+                                                                    <div>Jerry J. 占龙</div>
+                                                                    <div> 
+                                                                        I love Chinese culture and Chinese kungfu. Namelator has helped me to get a cool Chinese name. It pronounces Jan Long, which is so close to my name Jerry. It means Fighting dragon in Chinese. The name also shares a same character with Bruce Lee's Chinese name!
+                                                                    </div>
+                                                               </div>
+                                                    </li>
+                                                    <li>
+                                                            <div class="con3">
+                                                                    <div>Nina J. 宁静</div>
+                                                                    <div> 
+                                                                        Thank Namelator for helping me with a Chinese name in 2 hours. I love it! My name means serenity and peace. It has similar pronunciation to my name too. I have recommended the website to my family and friends.
+                                                                    </div>
+                                                               </div>
+                                                    </li>
+                                                </ul>
+                                    </div>
+                                    
+                                </div>
+                                <div class="hd operation row center">
+                                        <img  class="prev"  src="img/home_btn_table1.png" alt="">
+                                        <img class="next" src="img/home_btn_tabri1.png" alt="">
+                                    </div>
+                            </div>
+                            
+                            
+                           
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="interval"></div>
+                <div>
+                    <div class="famous_top rel">
+                        <img src="img/home_bg3.png" alt="" class="famous_img">
+                        <div class="famous_txt">Here is a list of famous Chinese names and their meanings.</div>
+                    </div>
+                    <div class="scroll" v-cloak>
+                        <div v-if="active==0">
+                                <img src="img/3.jpg" alt="" class="person_img">
+                                <div class="scroll_txt">
+                                    <div class="bold">Bruce Li </div>
+                                    <div class="bold">Chinese nickname: 李小龙</div>
+                                    <div>Pronunciation: Li  Shiao Long</div>
+                                    <div>Meaning: little dragon.</div>
+                                </div>  
+                        </div>  
+                        <div v-if="active==1">
+                                <img src="img/7.jpg" alt="" class="person_img">
+                                <div class="scroll_txt">
+                                        <div class="bold">Singer: Jay Chou</div>
+                                        <div class="bold">Chinese name: 周杰伦</div>
+                                        <div>Pronunciation: Zhou Jie Lun</div>
+                                        <div>Meaning: outstanding and unique.</div>
+                                </div>  
+                        </div>    
+                        <div v-if="active==2">
+                                <img src="img/8.jpg" alt="" class="person_img">
+                                <div class="scroll_txt">
+                                        <div class="bold">Fiction figure: 张无忌</div>
+                                        <div>Pronunciation: Zhang Wu Ji</div>
+                                        <div>Meaning: without boundary, fear and rule</div>
+                                </div>  
+                        </div>    
+                        <div v-if="active==3">
+                                <img src="img/1.jpg" alt="" class="person_img">
+                                <div class="scroll_txt">
+                                        <div class="bold">Founder of Ming Dynasty: 朱元璋 </div>
+                                 
+                                    <div>Pronunciation: 朱元璋</div>
+                                    <div>Meaning: the jade to conquer Yuan(former) dynasty</div>
+                                    
+                                </div>  
+                        </div>   
+                              
+                    </div>
+                    <div class="scroll_tip" v-cloak>
+                        <div class="xian row around">
+                            <div  class="head_img">
+                                <div @click="active=0">
+                                        <img :class="active==0?'active':''" src="img/home_ic_lxl.png" alt="">
+                                        <div :class="active==0?'':'active'" class="circle"></div>
+                                        <div :class="active==0?'bs':''">Bruce Li</div>
+                                        <div :class="active==0?'bs':''">李小龙（lǐ  xiǎo lóng）</div>
+                                </div>
+                                
+                            </div>
+                            <div class="head_img">
+                                <div @click="active=1">
+                                        <img :class="active==1?'active':''" src="img/home_ic_zjl.png" alt="">
+                                        <div  :class="active==1?'':'active'" class="circle"></div>
+                                        <div :class="active==1?'bs':''">Jay Chou</div>
+                                        <div :class="active==1?'bs':''">周杰伦（zhōu  jié  lún）</div>
+                                </div>
+                                
+                            </div>
+                            <div  class="head_img">
+                                <div @click="active=2">
+                                        <img :class="active==2?'active':''" src="img/home_ic_zwj.png" alt="">
+                                        <div class="circle" :class="active==2?'':'active'"></div>
+                                        <div :class="active==2?'bs':''">Fiction Figure</div>
+                                        <div :class="active==2?'bs':''">张无忌（zhāng  wú  jì）</div>
+                                </div>
+                                
+                            </div>
+                            <div class="head_img">
+                                <div @click="active=3">
+                                        <img :class="active==3?'active':''" src="img/home_ic_zyz.png" alt="">
+                                        <div class="circle" :class="active==3?'':'active'"></div>
+                                        <div :class="active==3?'bs':''">Ming Emperor</div>
+                                        <div :class="active==3?'bs':''">朱元璋（zhū  yuán  zhāng）</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                        <div class="famous_top rel">
+                                <img src="img/home_bg3.png" alt="" class="famous_img">
+                                <div class="famous_txt">Chinese give unique and meaningful nicknames</div>
+                        </div>
+                        <div class="row center" v-cloak>
+                            <div class="left">
+                                
+                                <div class="title" v-if="active2==0">NBA Legend: Kobe Bryant</div>
+                                <div class="title" v-if="active2==1">Oscar Winner: Halle Barry</div>
+                                <div class="title" v-if="active2==2">Miranda Kerr</div>
+                                <div class="title" v-if="active2==3">US President: Donald Trump</div>
+
+                                <div class="title bot20"  v-if="active2==0">Chinese nickname: 小飞侠 </div>
+                                <div class="title bot20" v-if="active2==1">Chinese nickname: 黑珍珠 </div>
+                                <div class="title bot20" v-if="active2==2">Chinese nickname: 可儿 </div>
+                                <div class="title bot20" v-if="active2==3">Chinese nickname: 川普 </div>
+                                <div>
+                                        <div class="row prod">   
+                                            <div class="box2">Pronunciation </div>
+                                            <div class="green"  v-if="active2==0">Shiao Fei Shia</div>
+                                            <div class="green" v-if="active2==1">Hey Zhen Zhu</div>
+                                            <div class="green" v-if="active2==2">Keer</div>
+                                            <div class="green" v-if="active2==3">Chuan Pu</div>
+                                        </div>
+                                        <div class="row prod">   
+                                            <div class="box2">Meaning </div>
+                                            <div class="green" v-if="active2==0">Flying Hero</div>
+                                            <div class="green" v-if="active2==1">Black Pearl</div>
+                                            <div class="green" v-if="active2==2">cutie or beauty</div>
+                                            <div class="green" v-if="active2==3">Si Chuan dialect</div>
+                                        </div>
+                                        <div class="row prod">
+                                            <div class="box2">Reason</div>
+                                            <div class="green" v-if="active2==0">His athleticism and dedication as a winner</div>
+                                            <div class="green" v-if="active2==1">Her beauty and being the first African American actress to win the Oscar award</div>
+                                            <div class="green" v-if="active2==2">It is true and it sounds exacly the same as its English pronoun</div>
+                                            <div class="green" v-if="active2==3">Same pronounciation and Si Chuan dialect is know for its funny tune and exaggeration, doesn't it sound familiar!</div>
+                                        </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="char_bg">
+                                <img src="img/kobe.png" alt="" class="kobe"  v-if="active2==0">
+                                <img src="img/halle.png" alt="" class="keer halle"  v-if="active2==1">
+                                <img src="img/keer.png" alt="" class="keer"  v-if="active2==2">
+                                <img src="img/Donald.png" alt="" class="Donald"  v-if="active2==3">
+                            </div>
+                        </div>
+                        <div class="w1200 row unique around">
+                             <div class="unique_one" :class="active2==0 ? 'active':''" @click="active2=0">
+                                 <div class="bold">Kobe Bryant</div>
+                                 <div>小飞侠（xiǎo  fēi  xiá）</div>
+                             </div>
+                             <div class="unique_one" :class="active2==1 ? 'active':''" @click="active2=1">
+                                 <div class="bold">Halle Berry</div>
+                                 <div>黑珍珠（hēi  zhēn  zhū）</div>
+                             </div>
+                             <div class="unique_one" :class="active2==2 ? 'active':''" @click="active2=2">
+                                 <div class="bold">Miranda Kerr</div>
+                                 <div>可儿（kě  ér）</div>
+                             </div>
+                             <div class="unique_one" :class="active2==3 ? 'active':''"  @click="active2=3">
+                                 <div class="bold">Donald Trump</div>
+                                 <div>川普（chuān  pǔ）</div>
+                             </div>
+                        </div>
+                </div>
+                <div class="interval"></div>
+                <div class="char">
+                    <div>
+                            
+                            <div class="title">Popular Chinese characters</div>
+                            <div class="txt1">
+                                Chinese characters have meanings, many westerners choose them to use for names, symbols and tattoos.
+        See some popular characters with their meanings and pronunciation, save them to your vocabulary list for future reference!
+                             </div>
+                             <table>
+                                 <tr>
+                                     <td class="char_one">
+                                        <div>忠（zhong）</div>
+                                        <div>Royal</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>强（qiáng）</div>
+                                        <div>Strong, strength</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>力（lì）</div>
+                                        <div>power, strength</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>静（jìng）</div>
+                                        <div>serenity, peace</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>勇（yǒng）</div>
+                                        <div>brave, courage</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>智（zhì）</div>
+                                        <div>intelligence</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>心（xīn）</div>
+                                        <div>heart</div>
+                                     </td>
+                                     <td class="char_one">
+                                        <div>爱（ài）</div>
+                                        <div>love</div>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="char_one">
+                                       <div>欲（yù）</div>
+                                       <div>desire</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>诚（chéng）</div>
+                                       <div>honesty</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>善（shàn）</div>
+                                       <div>compassion, kind</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>信（xìn）</div>
+                                       <div>faith, honest</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>变（biàn）</div>
+                                       <div>change</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>火（huǒ）</div>
+                                       <div>fire</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>水（shuǐ）</div>
+                                       <div>water</div>
+                                    </td>
+                                    <td class="char_one">
+                                       <div>天（tiān）</div>
+                                       <div>sky</div>
+                                    </td>
+                                </tr>
+                             </table>
+                    </div>
+                    
+                     <foot></foot>
+                    
+                </div>
+                
+    </div>
+    <alert :msgshow="msgShow" :msg="msg"></alert>
+</div>  
+</body>
+</html>
+<script src="../js/vue.min.js"></script>
+<script src="js/foot.js"></script>
+<script src="../js/jquery1.42.min.js"></script>
+<script src="../js/jquery.SuperSlide.2.1.3.js"></script>
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script src="../js/login.js"></script>
+
+<script>
+    var vm = new Vue({
+        el:'#body',
+        data:{
+            msgShow:false,
+            msg:'',
+            active:0,
+            active2:0,
+            email:'',
+        },
+        mounted(){
+            jQuery(".slideBox").slide({mainCell:".bd ul",autoPlay:false});
+            jQuery(".txtScroll-left").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,scroll:1,vis:1});
+        },
+        created(){
+            if(localStorage.getItem('email')){
+
+                this.email=localStorage.getItem('email');
+
+            }
+        }
+    })
+</script>

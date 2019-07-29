@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0,user-scalable=0,initial-scale='${window.divicePixelRatio}'">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/order.css">
+    <link rel="shortcut icon" href="img/favicon.ico" /> 
+    <title>namelator</title>
+    <style>
+    .fl{
+        float:left;
+    }
+    .fr{
+        float:right;
+    }
+    .ri20{
+        margin-right:20px;
+    }
+    </style>
+</head>
+<body>
+<div id="body">
+    <audio src="" id="myaudio"></audio>
+    <!-- audio -->
+    <top :email="email"></top>
+    <back></back>
+    <div class="hidden">
+        <div v-if="list.length==0" v-cloak>
+            <img src="img/mycoll_none_bg.png" alt=""  class="none">
+            <div class="none_txt">Go and collect your favorite Chinese characters.>></div>
+        </div>
+        <div class="w1200" v-if="list.length>0" v-cloak>
+            <div class="one" v-for="(item,key) in list" style="position:relative;z-index:2;">
+                <div class="row between">
+                     <div>Order #{{item.orderID}}</div>
+                     <div>{{item.create_time}}</div>
+                </div> 
+                <div class="row">        
+                    <div class="ri20">{{item.family_name}} {{item.last_name}}</div>
+                    <div class="ri20">{{item.birth}}</div> 
+                    <div>{{item.sex==1?'male':'female'}}</div>
+                </div>
+                <div class="row">Desired Essence of the Name: {{item.remark}}</div>
+                <div class="row">Your CHINESE ZODIAC: <span v-if="item.wuxing">{{JSON.parse(item.wuxing).sx}}</span></div>
+                <div class="row between">
+                    <div>Your CHINESE FIVE ELEMENTS:
+                        <span v-if="item.wuxing">{{JSON.parse(item.wuxing).wuxing}}</span>                                                                       
+                        </div>
+                    <div class="href" @click="window.location.href='zodiac.html'">          
+                            WHAT IS CHINESE ZODIAC? WHAT IS CHINESE ELEMENT? >>     
+                    </div>
+                </div>
+                <div class="result row between" v-if="item.status==0">
+                    <div>We are working hard....</div>
+                    <!-- <div>approx 01:34:23</div> -->
+                </div>
+                <div class="hidden" v-else>
+                    <div :class="key2==0?'fl':'fr'" class="result_one rel" v-for="(item2,key2) in JSON.parse(item.name)">
+                        <img class="img1" src="img/frame_lefttop.png" alt="">
+                        <img class="img2" src="img/frame_righttop.png" alt="">
+                        <img class="img3" src="img/frame_leftunder.png" alt="">
+                        <img class="img4" src="img/frame_rightunder.png" alt="">
+                        <div class="con">
+                            
+                            <div>
+                                chinese name: <span v-for="(item4,key4) in item2">{{item4.char}}</span> <span  v-for="(item4,key4) in item2">{{item4.spell}}</span> 
+                                    <img @click="token(item2)"  src="img/551089c328de212a6394f477fb68f34.png"  class="rel" style="top:8px;left:10px;" alt="">
+                            </div>
+                            <div v-for="(item3,key3) in item2">{{item3.char}} {{item3.spell}}-{{item3.mean}}<img @click="getText(item3.char)" class="rel"  style="top:8px; left:10px;" src="img/551089c328de212a6394f477fb68f34.png"></img></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <foot></foot>
+    </div>
+    <alert :msgshow='msgShow' :msg="msg"></alert>
+</div>   
+</body>
+</html>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+<script src="js/foot.js"></script>
+<script src="../js/vue-resource.min.js"></script>
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script src="../js/login.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#body',
+        data:{
+            email:'',
+            list:[],
+            msgShow:false,
+            msg:'',
+        },
+        methods:{
+            getText(text){
+                this.voice(text);
+
+            },
+            token(item){
+                console.log('字',item);
+                var text='';
+                for(var i=0;i<item.length;i++){
+                    text=text+item[i].char;
+                }
+                this.voice(text);
+                
+            },
+            voice(text){
+                var voiceToken=localStorage.getItem('voiceToken');
+                if(voiceToken){
+                    var expireTime=JSON.parse(voiceToken).expireTime;
+                    var timestamp = Math.round(new Date()/1000);
+                    if(expireTime>timestamp){
+                        console.log("1")
+                        this.getVoice(JSON.parse(voiceToken).id);
+                    }else{
+                        
+                        this.getToken(text);
+                    }
+
+                }else{
+                    this.getToken(text);
+                }
+
+            },
+            getToken(text){
+                this.$http.get('getToken.php').then(function(res){
+                           if(res.body.result=='OK'){
+
+                                // this.list=[];
+                                console.log(res.body);
+                                var token=res.body.token.Id;
+                              
+                                // console.log(token);
+                                this.getVoice(token,text);
+                                localStorage.setItem("voiceToken",JSON.stringify(res.body.token));
+                            }
+                        },function(res){
+                            // console.log("fail",res);
+                            // this.disabled=false;
+                        //    this.alert("系统繁忙请稍后再试");
+                        });
+            },
+            getVoice(token,text){
+                var audio=document.getElementById("myaudio");
+                audio.src='https://nls-gateway.cn-shanghai.aliyuncs.com/stream/v1/tts?appkey=qUDiajamSvxirApZ&text='+text+'&format=mp3&token='+token;
+                audio.play();
+               
+            },
+            // setTimer(list){
+                // var nowTime = Math.round(new Date()/1000);
+                // for(var i=0;i<list.length;i++){                  
+                //  var differ = (new Date(list.create_time).getTime())/1000+7200 - nowTime;
+                //  if(differ==0){
+                //      continue;
+                //     //  clearInterval(timer);
+                //  }
+                // //  console.log("differ"+differ);
+                //  //获取还剩多少小时
+                //  var hour=parseInt(differ/3600%24);
+			    // //获取还剩多少分钟
+			    //  var minute=parseInt(differ/60%60);
+			    // //获取还剩多少秒
+                // var second=differ%60;
+                // vm.time='0'+hour + ':' + (minute<10?'0'+minute:minute) + ':' + (second<10?'0'+second:second);
+                // }
+            // }
+        },
+        created(){
+            if(localStorage.getItem('email')){
+                this.email=localStorage.getItem('email');
+                
+            }else{
+                window.location.href="index.html";
+                return;
+            }
+            this.$http.get('myOrder.php',{params:{'mail':this.email,
+                       }}).then(function(res){
+                            if(res.body.result=='OK'){
+                                // this.list=[];
+                                this.list=res.body.list;
+                                // setTimer(res.body.list);
+                                console.log(res.body);
+                            }
+                        },function(res){
+                            vm.msgShow=true;
+                            vm.msg = "The system is busy. Please try again later."
+
+                        });  
+        }
+    })
+</script>
